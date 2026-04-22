@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SmartReflect AI</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        /* Logic for hiding and showing tabs while keeping CSS grid perfectly working */
+        .tab-pane { display: none; }
+        .tab-pane.active { display: contents; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="index.html" class="brand">
+            <i class="fa-solid fa-car-side"></i> SmartReflect AI
+        </a>
+        <ul class="nav-links">
+            <li><a href="#" class="nav-tab active" data-target="tab-overview"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+            <li><a href="#" class="nav-tab" data-target="tab-map"><i class="fa-solid fa-map-location-dot"></i> Map</a></li>
+            <li><a href="#" class="nav-tab" data-target="tab-analytics"><i class="fa-solid fa-chart-line"></i> Analytics</a></li>
+            <li><a href="#" class="nav-tab" data-target="tab-reports"><i class="fa-solid fa-table"></i> Reports</a></li>
+            <li><a href="#" onclick="alert('Settings panel is simulated for demo purposes.'); return false;"><i class="fa-solid fa-gear"></i> Settings</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="topbar">
+            <h2>Live Monitoring</h2>
+            <div class="header-actions">
+                <button id="runSimBtn" class="btn-primary">
+                    <i class="fa-solid fa-play"></i> Run Simulation
+                    <div id="simSpinner" class="spinner"></div>
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            
+            <!-- ====== OVERVIEW TAB ====== -->
+            <div id="tab-overview" class="tab-pane active">
+                <!-- Live Monitoring Card -->
+                <div class="card glass col-8">
+                    <div class="card-header">
+                        <span>Camera Feed Analysis</span>
+                        <span id="currentStatus" class="status-indicator status-high">High Visibility</span>
+                    </div>
+                    <div class="video-container" id="videoPreview">
+                        <i class="fa-solid fa-camera fa-3x" style="opacity: 0.5;"></i>
+                        <span style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 4px; font-size: 0.8rem;">REC • KM <span id="currentKm">--</span></span>
+                    </div>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <div class="stat-value" id="confidenceValue">--%</div>
+                            <div class="stat-label">AI Confidence</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="gpsValue">--, --</div>
+                            <div class="stat-label">Coordinates</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="detectionsCount">0</div>
+                            <div class="stat-label">Total Logs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerts Panel -->
+                <div class="card glass col-4">
+                    <div class="card-header">
+                        <span><i class="fa-solid fa-bell"></i> Live Alerts</span>
+                    </div>
+                    <div class="alert-list" id="alertList">
+                        <!-- Alerts will be injected here -->
+                        <div style="text-align: center; color: var(--text-secondary); margin-top: 20px;">No alerts yet...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== MAP TAB ====== -->
+            <div id="tab-map" class="tab-pane">
+                <div class="card glass col-12">
+                    <div class="card-header">
+                        <span><i class="fa-solid fa-map"></i> GPS Tracking</span>
+                    </div>
+                    <!-- Make map larger for full page view -->
+                    <div id="map" style="height: 500px;"></div> 
+                </div>
+            </div>
+
+            <!-- ====== ANALYTICS TAB ====== -->
+            <div id="tab-analytics" class="tab-pane">
+                <div class="card glass col-12">
+                    <div class="card-header">
+                        <span><i class="fa-solid fa-chart-column"></i> Visibility Trends</span>
+                    </div>
+                    <div style="height: 450px; width: 100%;">
+                        <canvas id="trendsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== REPORTS TAB ====== -->
+            <div id="tab-reports" class="tab-pane">
+                <div class="card glass col-12 table-responsive">
+                    <div class="card-header">
+                        <span><i class="fa-solid fa-list"></i> Recent Detections</span>
+                    </div>
+                    <table class="data-table" id="reportsTable">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Location (KM / GPS)</th>
+                                <th>Visibility Status</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
