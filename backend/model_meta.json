@@ -1,0 +1,41 @@
+{
+  "features": [
+    "amount",
+    "time",
+    "location",
+    "device"
+  ],
+  "numeric_features": [
+    "amount",
+    "time"
+  ],
+  "categorical_features": [
+    "location",
+    "device"
+  ],
+  "target": "is_fraud",
+  "accuracy": 0.8788,
+  "roc_auc": 0.804,
+  "n_train": 9600,
+  "n_test": 2400,
+  "fraud_rate": 0.1031,
+  "locations": [
+    "Dubai",
+    "Lagos",
+    "London",
+    "Moscow",
+    "Mumbai",
+    "New York",
+    "Sao Paulo",
+    "Singapore",
+    "Sydney",
+    "Tokyo"
+  ],
+  "devices": [
+    "ATM",
+    "Desktop",
+    "Mobile",
+    "POS",
+    "Tablet"
+  ]
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FraudShield AI — Real-Time Fraud Detection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="home">
+  <nav class="nav">
+    <div class="brand">
+      <span class="logo">🛡️</span>
+      <span class="full">Fraud<span class="grad-text">Shield</span> AI</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="input.html" data-nav="input">Detect</a>
+      <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="badge-pill"><span class="dot"></span> Powered by RandomForest ML · Real-Time Engine</div>
+    <h1>Stop fraud before it<br /><span class="grad">drains your revenue.</span></h1>
+    <p class="lead">
+      FraudShield AI scores every transaction in milliseconds and analyzes entire
+      datasets in seconds — using a trained machine-learning model, not hardcoded
+      rules. Instant verdicts, risk scoring, and live analytics in one premium dashboard.
+    </p>
+    <div class="hero-cta">
+      <a href="input.html" class="btn">⚡ Detect a Transaction</a>
+      <a href="dashboard.html" class="btn ghost">📊 Open Dashboard</a>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-chip"><span class="ic">⚡</span> Real-time single detection</div>
+      <div class="feature-chip"><span class="ic">📁</span> Bulk CSV analysis</div>
+      <div class="feature-chip"><span class="ic">📉</span> Risk scoring 0–100%</div>
+      <div class="feature-chip"><span class="ic">🧠</span> ML, not rules</div>
+    </div>
+
+    <div class="hero-stats" id="hero-stats">
+      <div class="hero-stat"><div class="v" id="h-total">0</div><div class="l">Transactions Scored</div></div>
+      <div class="hero-stat"><div class="v" id="h-fraud">0</div><div class="l">Fraud Flagged</div></div>
+      <div class="hero-stat"><div class="v" id="h-auc">—</div><div class="l">Model ROC-AUC</div></div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+  <script>
+    (async () => {
+      try {
+        const [stats, meta] = await Promise.all([api("/stats"), api("/meta")]);
+        countUp(document.getElementById("h-total"), stats.total_processed);
+        countUp(document.getElementById("h-fraud"), stats.fraud_detected);
+        if (meta.roc_auc) document.getElementById("h-auc").textContent = meta.roc_auc.toFixed(2);
+      } catch (e) {
+        document.getElementById("h-auc").textContent = "—";
+      }
+    })();
+  </script>
+</body>
+</html>

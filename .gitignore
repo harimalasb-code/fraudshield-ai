@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# FraudShield runtime artifacts
+backend/fraudshield.db
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

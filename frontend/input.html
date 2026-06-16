@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FraudShield AI — Analyze Transaction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="input">
+  <nav class="nav">
+    <div class="brand">
+      <span class="logo">🛡️</span>
+      <span class="full">Fraud<span class="grad-text">Shield</span> AI</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="input.html" data-nav="input">Detect</a>
+      <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+    </div>
+  </nav>
+
+  <div class="container" style="max-width:720px">
+    <div class="section-title">⚡ Real-Time Transaction Detection</div>
+    <p class="section-sub">Enter the transaction details — the trained model returns a verdict and risk score instantly.</p>
+
+    <div class="glass" style="padding:30px">
+      <form id="txform">
+        <div class="form-grid">
+          <div class="field">
+            <label for="amount">Transaction Amount ($)</label>
+            <input type="number" id="amount" step="0.01" min="0" placeholder="e.g. 4200.00" required />
+          </div>
+          <div class="field">
+            <label for="time">Time (Hour of Day · 0–23)</label>
+            <input type="number" id="time" min="0" max="23" placeholder="e.g. 2" required />
+            <span class="hint">24-hour format. Late-night activity is riskier.</span>
+          </div>
+          <div class="field">
+            <label for="location">Location</label>
+            <select id="location" required><option value="" disabled selected>Select location…</option></select>
+          </div>
+          <div class="field">
+            <label for="device">Device</label>
+            <select id="device" required><option value="" disabled selected>Select device…</option></select>
+          </div>
+        </div>
+        <div class="mt" style="display:flex;gap:14px;flex-wrap:wrap">
+          <button type="submit" class="btn">🔍 Analyze Transaction</button>
+          <a href="dashboard.html" class="btn ghost">Go to Dashboard →</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Processing overlay -->
+  <div class="overlay" id="overlay">
+    <div class="scanner"></div>
+    <div class="txt">🤖 Analyzing Transaction...</div>
+    <div class="sub">Running RandomForest model & scoring risk</div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>initInputPage();</script>
+</body>
+</html>
