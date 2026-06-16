@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FraudShield AI — Result</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="input">
+  <nav class="nav">
+    <div class="brand">
+      <span class="logo">🛡️</span>
+      <span class="full">Fraud<span class="grad-text">Shield</span> AI</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="input.html" data-nav="input">Detect</a>
+      <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="result-wrap" id="result-root">
+      <div class="glass verdict fade-in">
+        <div class="ring" id="ring"></div>
+        <h2 id="verdict-title">—</h2>
+        <div class="lvl" id="verdict-level"></div>
+
+        <div class="detail-grid">
+          <div class="detail"><div class="k">Amount</div><div class="v" id="d-amount">—</div></div>
+          <div class="detail"><div class="k">Location</div><div class="v" id="d-location">—</div></div>
+          <div class="detail"><div class="k">Device</div><div class="v" id="d-device">—</div></div>
+          <div class="detail"><div class="k">Time</div><div class="v" id="d-time">—</div></div>
+        </div>
+
+        <div class="mt" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+          <a href="input.html" class="btn ghost">↺ Test Another</a>
+          <a href="dashboard.html" class="btn">📊 View Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>initResultPage();</script>
+</body>
+</html>

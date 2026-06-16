@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FraudShield AI — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body data-page="dashboard">
+  <nav class="nav">
+    <div class="brand">
+      <span class="logo">🛡️</span>
+      <span class="full">Fraud<span class="grad-text">Shield</span> AI</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="input.html" data-nav="input">Detect</a>
+      <a href="dashboard.html" data-nav="dashboard">Dashboard</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px">
+      <div>
+        <div class="section-title">📊 Live Fraud Dashboard</div>
+        <p class="section-sub">Auto-refreshing every 4s · combines single + dataset predictions</p>
+      </div>
+      <button class="btn cyan" id="download-btn">⬇️ Download Report (CSV)</button>
+    </div>
+
+    <!-- Fraud spike alert -->
+    <div class="alert-banner" id="alert">
+      <span class="ic">🚨</span>
+      <span class="msg"></span>
+    </div>
+
+    <!-- Analytics cards -->
+    <div class="cards">
+      <div class="glass stat-card">
+        <div class="head"><span class="label">Total Processed</span><span class="icon ic-total">📦</span></div>
+        <div class="value cyan" id="stat-total">0</div>
+        <div class="foot">All scored transactions</div>
+      </div>
+      <div class="glass stat-card">
+        <div class="head"><span class="label">Fraud Detected</span><span class="icon ic-fraud">⚠️</span></div>
+        <div class="value red" id="stat-fraud">0</div>
+        <div class="foot">Flagged by the model</div>
+      </div>
+      <div class="glass stat-card">
+        <div class="head"><span class="label">Normal Traffic</span><span class="icon ic-normal">✅</span></div>
+        <div class="value green" id="stat-normal">0</div>
+        <div class="foot">Legitimate transactions</div>
+      </div>
+      <div class="glass stat-card">
+        <div class="head"><span class="label">Avg Risk Score</span><span class="icon ic-risk">📈</span></div>
+        <div class="value amber" id="stat-risk">0%</div>
+        <div class="foot">Mean model risk</div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-row">
+      <div class="glass chart-card">
+        <h3>📈 Hourly Traffic &amp; Fraud</h3>
+        <div class="chart-wrap"><canvas id="line"></canvas></div>
+      </div>
+      <div class="glass chart-card">
+        <h3>🍩 Verdict Distribution</h3>
+        <div class="chart-wrap"><canvas id="donut"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Dataset upload -->
+    <div class="glass table-card mb">
+      <h3 style="margin-bottom:6px">📁 Dataset-Level Analysis</h3>
+      <p class="section-sub" style="margin-bottom:16px">Upload a CSV (columns: <code>amount, location, device, time</code>). The model scores every row.</p>
+      <div class="upload-zone" id="drop">
+        <div class="big">⬆️</div>
+        <div>Drag &amp; drop your CSV here, or <strong>click to browse</strong></div>
+        <div class="fname" id="fname"></div>
+        <input type="file" id="csvfile" accept=".csv" hidden />
+      </div>
+      <div class="mt">
+        <button class="btn" id="analyze-btn" disabled>🚀 Analyze Dataset</button>
+      </div>
+
+      <!-- Dataset result -->
+      <div id="ds-result" style="display:none;margin-top:24px">
+        <div class="ds-summary">
+          <div class="ds-mini"><div class="v cyan" id="ds-total">0</div><div class="l">Total Records</div></div>
+          <div class="ds-mini"><div class="v red" id="ds-fraud">0</div><div class="l">Fraud Count</div></div>
+          <div class="ds-mini"><div class="v amber" id="ds-pct">0%</div><div class="l">Fraud %</div></div>
+          <div class="ds-mini"><div class="v green" id="ds-risk">0%</div><div class="l">Avg Risk Score</div></div>
+        </div>
+        <div class="charts-row">
+          <div class="glass chart-card">
+            <h3>📊 Fraud vs Normal</h3>
+            <div class="chart-wrap" style="height:240px"><canvas id="ds-risk-dist"></canvas></div>
+          </div>
+          <div class="glass chart-card">
+            <h3>🍩 Fraud Ratio</h3>
+            <div class="chart-wrap" style="height:240px"><canvas id="ds-ratio"></canvas></div>
+          </div>
+        </div>
+        <h3 style="margin:18px 0 10px">🔥 Top 5 High-Risk Transactions</h3>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Rank</th><th>Amount</th><th>Location</th><th>Device</th><th>Time</th><th>Level</th><th style="text-align:right">Risk</th></tr></thead>
+            <tbody id="ds-top-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent transactions -->
+    <div class="glass table-card">
+      <div class="table-head">
+        <h3>🧾 Recent Transactions</h3>
+        <span class="badge-pill" style="margin:0"><span class="dot"></span> Live</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Amount</th><th>Location</th><th>Device</th><th>Time</th><th>Verdict</th><th>Risk Score</th></tr></thead>
+          <tbody id="tx-body"><tr><td colspan="6" class="center muted">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Processing overlay -->
+  <div class="overlay" id="overlay">
+    <div class="scanner"></div>
+    <div class="txt">🤖 Analyzing Dataset...</div>
+    <div class="sub">Scoring every transaction with the model</div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>initDashboard();</script>
+</body>
+</html>
